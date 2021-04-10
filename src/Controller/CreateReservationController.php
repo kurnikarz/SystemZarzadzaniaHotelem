@@ -13,7 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 class CreateReservationController extends AbstractController
 {
     /**
-     * @Route("/reservation", name="create_reservation")
+     * @Route("/rezerwacja", name="create_reservation")
      */
     public function index(Request $request): Response
     {

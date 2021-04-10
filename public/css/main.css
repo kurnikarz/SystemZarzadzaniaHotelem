@@ -1,0 +1,8 @@
+#intro {
+    background-image: url("/img/background.jpg");
+    height: 100vh;
+}
+
+.navbar .nav-link {
+    color: #fff !important;
+}
