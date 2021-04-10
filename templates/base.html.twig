@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {# Run `composer require symfony/webpack-encore-bundle`
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {# Run `composer require symfony/webpack-encore-bundle`
            and uncomment the following Encore helpers to start using Symfony UX #}
-        {% block stylesheets %}
-            <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
-            <link rel="stylesheet" href="{{ asset('css/mdb.min.css') }}">
-            <link rel="stylesheet" href="{{ asset('css/main.css') }}">
-        {% endblock %}
-        {% block javascripts %}
-            <script src="{{ asset('js/bootstrap.js') }}"></script>
-            <script src="{{ asset('js/mdb.min.js') }}"></script>
-        {% endblock %}
-    </head>
-    <body>
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/mdb.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+    {% endblock %}
+</head>
+
+{#
+Źródła:
+Tło: https://wallpapercave.com/
+#}
+
+<body>
 
 <div id="intro" class="bg-image shadow-2-strong">
     <div class="mask" style="background-color: rgba(0, 0, 0, 0.8);">
@@ -25,5 +27,19 @@
     </div>
 </div>
 
-    </body>
+</body>
+
+{% block javascripts %}
+    <script src="{{ asset('js/jquery-3.6.0.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.js') }}"></script>
+    <script src="{{ asset('js/mdb.min.js') }}"></script>
+    <script src="{{ asset("js/repeater.js") }}"></script>
+    <script src="{{ asset('js/custom.js') }}"></script>
+    <script>
+        /* Create Repeater */
+        $("#repeater").createRepeater({
+            showFirstItemToDefault: true,
+        });
+    </script>
+{% endblock %}
 </html>

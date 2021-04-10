@@ -3,7 +3,13 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,11 +24,43 @@ class CreateReservationController extends AbstractController
     public function index(Request $request): Response
     {
         $form = $this->createFormBuilder()
-            ->add('dateFrom', DateTimeType::class, [
-                'label' => 'Od'
+            ->add('dateFrom', DateType::class, [
+                'label' => 'Od',
+                'widget' => 'single_text'
             ])
-            ->add('dateTo', DateTimeType::class, [
-                'label' => 'Do'
+            ->add('dateTo', DateType::class, [
+                'label' => 'Do',
+                'widget' => 'single_text'
+            ])
+            ->add('add', ButtonType::class, [
+                'attr' => [
+                    'class' => 'btn btn-primary pull-right repeater-add-btn'
+                ],
+                'label' => 'Dodaj pokój'
+            ])
+            ->add('room_type', ChoiceType::class,[
+                'choices' => [
+                    '2 osobowy' => 2,
+                    '3 osobowy' => 3,
+                    '4 osobowy' => 4
+                ],
+                'attr' => [
+                    'class' => 'form-select',
+                    'id' => 'room_type'
+                ],
+                'label' => 'Typ pokoju'
+            ])
+            ->add('people', NumberType::class, [
+                'label' => 'Liczba osób',
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('remove', ButtonType::class, [
+                'label' => 'Usuń',
+                'attr' => [
+                    'class' => 'btn btn-danger remove-btn'
+                ]
             ])
             ->add('save', SubmitType::class, [
                 'label' => 'Złóż rezerwacje',

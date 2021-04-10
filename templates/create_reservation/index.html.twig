@@ -3,5 +3,12 @@
 {% block title %}Złóż rezerwację{% endblock %}
 
 {% block body %}
-    {{ form(form) }}
+    <div id="repeater">
+        {{ form_row(form.add) }}
+        <div class="items" data-group="test">
+            {{ form_row(form.room_type) }}
+            {{ form_row(form.people) }}
+            {{ form_row(form.remove) }}
+        </div>
+    </div>
 {% endblock %}
