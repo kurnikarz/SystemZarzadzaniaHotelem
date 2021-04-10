@@ -6,8 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,10 +28,16 @@ class CreateReservationController extends AbstractController
         $form = $this->createFormBuilder()
             ->add('dateFrom', DateType::class, [
                 'label' => 'Od',
+                'attr' => [
+                    'class' => 'form-control'
+                ],
                 'widget' => 'single_text'
             ])
             ->add('dateTo', DateType::class, [
                 'label' => 'Do',
+                'attr' => [
+                    'class' => 'form-control'
+                ],
                 'widget' => 'single_text'
             ])
             ->add('add', ButtonType::class, [
@@ -60,6 +68,34 @@ class CreateReservationController extends AbstractController
                 'label' => 'Usuń',
                 'attr' => [
                     'class' => 'btn btn-danger remove-btn'
+                ]
+            ])
+            ->add('name', TextType::class, [
+                'label' => 'Imię',
+                'attr' => [
+                    'class' => 'form-control',
+                    'maxlength' => '50'
+                ]
+            ])
+            ->add('surname', TextType::class, [
+                'label' => 'Nazwisko',
+                'attr' => [
+                    'class' => 'form-control',
+                    'maxlength' => '50'
+                ]
+            ])
+            ->add('email', EmailType::class, [
+                'label' => 'Email',
+                'attr' => [
+                    'class' => 'form-control',
+                    'maxlength' => '50'
+                ]
+            ])
+            ->add('phone', TextType::class, [
+                'label' => 'Numer telefonu',
+                'attr' => [
+                    'class' => 'form-control',
+                    'maxlength' => '20'
                 ]
             ])
             ->add('save', SubmitType::class, [

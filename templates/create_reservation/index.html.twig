@@ -2,13 +2,59 @@
 
 {% block title %}Złóż rezerwację{% endblock %}
 
+{% block body_class %}reservation{% endblock %}
 {% block body %}
-    <div id="repeater">
-        {{ form_row(form.add) }}
-        <div class="items" data-group="test">
-            {{ form_row(form.room_type) }}
-            {{ form_row(form.people) }}
-            {{ form_row(form.remove) }}
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.name) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.surname) }}
         </div>
     </div>
+
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.email) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.phone) }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col">
+            {{ form_row(form.dateFrom) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.dateTo) }}
+        </div>
+    </div>
+
+    <div id="repeater">
+        {{ form_row(form.add) }}
+{#        <div class="items" data-group="test">#}
+{#            {{ form_row(form.room_type) }}#}
+{#            {{ form_row(form.people) }}#}
+{#            {{ form_row(form.remove) }}#}
+{#        </div>#}
+        <div class="items">
+            <div class="row">
+                <div class="col">
+                    {{ form_row(form.room_type) }}
+                </div>
+                <div class="col">
+                    {{ form_row(form.people) }}
+                </div>
+                <div class="col remove">
+                    {{ form_row(form.remove) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        {{ form_row(form.save) }}
+    </div>
+
 {% endblock %}
