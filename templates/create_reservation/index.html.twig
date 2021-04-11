@@ -4,6 +4,7 @@
 
 {% block body_class %}reservation{% endblock %}
 {% block body %}
+    {{ form_start(form) }}
     <div class="row">
         <div class="col">
             {{ form_row(form.name) }}
@@ -57,4 +58,5 @@
         {{ form_row(form.save) }}
     </div>
 
+    {{ form_end(form) }}
 {% endblock %}

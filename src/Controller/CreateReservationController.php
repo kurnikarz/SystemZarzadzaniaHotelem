@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\HotelGuest;
+use App\Entity\Reservation;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -17,6 +19,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+//use App\Entity\
 
 class CreateReservationController extends AbstractController
 {
@@ -58,7 +61,7 @@ class CreateReservationController extends AbstractController
                 ],
                 'label' => 'Typ pokoju'
             ])
-            ->add('people', NumberType::class, [
+            ->add('people', IntegerType::class, [
                 'label' => 'Liczba osób',
                 'attr' => [
                     'class' => 'form-control'
@@ -107,6 +110,28 @@ class CreateReservationController extends AbstractController
 
         $form = $form->getForm();
         $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            $postData = $request->request->get('form');
+            dump($postData);
+            $entityManager = $this->getDoctrine()->getManager();
+            $reservation = new Reservation();
+            $hotel_guest = new HotelGuest();
+            $dateFrom = date_create_from_format('Y-m-d',$postData['dateFrom']);
+            $dateTo = date_create_from_format('Y-m-d',$postData['dateTo']);
+
+            $hotel_guest->setName($postData['name']);
+            $hotel_guest->setSurname($postData['surname']);
+            $hotel_guest->setEmail($postData['email']);
+            $hotel_guest->setPhone($postData['phone']);
+            $hotel_guest->setReservation($reservation);
+            $reservation->setDateFrom($dateFrom);
+            $reservation->setDateTo($dateTo);
+
+            $entityManager->persist($hotel_guest);
+            $entityManager->persist($reservation);
+            $entityManager->flush();
+
+        }
 
         return $this->render('create_reservation/index.html.twig', [
             'form' => $form->createView(),

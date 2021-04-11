@@ -52,6 +52,11 @@ class HotelGuest
      */
     private $bill;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Reservation::class, cascade={"persist", "remove"})
+     */
+    private $reservation;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -147,6 +152,18 @@ class HotelGuest
         }
 
         $this->bill = $bill;
+
+        return $this;
+    }
+
+    public function getReservation(): ?Reservation
+    {
+        return $this->reservation;
+    }
+
+    public function setReservation(?Reservation $reservation): self
+    {
+        $this->reservation = $reservation;
 
         return $this;
     }
