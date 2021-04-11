@@ -28,12 +28,6 @@ class Reservation
     private $dateTo;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Reception::class, inversedBy="reservations")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $reception;
-
-    /**
      * @ORM\OneToOne(targetEntity=Bill::class, mappedBy="reservation", cascade={"persist", "remove"})
      */
     private $bill;
@@ -63,18 +57,6 @@ class Reservation
     public function setDateTo(\DateTimeInterface $dateTo): self
     {
         $this->dateTo = $dateTo;
-
-        return $this;
-    }
-
-    public function getReception(): ?Reception
-    {
-        return $this->reception;
-    }
-
-    public function setReception(?Reception $reception): self
-    {
-        $this->reception = $reception;
 
         return $this;
     }

@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\HotelGuest;
+use App\Entity\Reception;
 use App\Entity\Reservation;
+use App\Repository\ReceptionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -112,7 +114,6 @@ class CreateReservationController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             $postData = $request->request->get('form');
-            dump($postData);
             $entityManager = $this->getDoctrine()->getManager();
             $reservation = new Reservation();
             $hotel_guest = new HotelGuest();

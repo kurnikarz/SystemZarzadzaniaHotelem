@@ -44,16 +44,6 @@ class Reception
      */
     private $surname;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Reservation::class, mappedBy="reception")
-     */
-    private $reservations;
-
-    public function __construct()
-    {
-        $this->reservations = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -115,36 +105,6 @@ class Reception
     public function setSurname(string $surname): self
     {
         $this->surname = $surname;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Reservation[]
-     */
-    public function getReservations(): Collection
-    {
-        return $this->reservations;
-    }
-
-    public function addReservation(Reservation $reservation): self
-    {
-        if (!$this->reservations->contains($reservation)) {
-            $this->reservations[] = $reservation;
-            $reservation->setReception($this);
-        }
-
-        return $this;
-    }
-
-    public function removeReservation(Reservation $reservation): self
-    {
-        if ($this->reservations->removeElement($reservation)) {
-            // set the owning side to null (unless already changed)
-            if ($reservation->getReception() === $this) {
-                $reservation->setReception(null);
-            }
-        }
 
         return $this;
     }

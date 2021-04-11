@@ -23,11 +23,6 @@ class HotelGuest
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $password;
-
-    /**
      * @ORM\Column(type="json")
      */
     private $roles = [];
@@ -70,18 +65,6 @@ class HotelGuest
     public function setEmail(string $email): self
     {
         $this->email = $email;
-
-        return $this;
-    }
-
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
 
         return $this;
     }
