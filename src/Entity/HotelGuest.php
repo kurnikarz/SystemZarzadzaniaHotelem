@@ -48,7 +48,7 @@ class HotelGuest
     private $bill;
 
     /**
-     * @ORM\OneToOne(targetEntity=Reservation::class, cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Reservation::class, inversedBy="hotelGuest", cascade={"persist", "remove"})
      */
     private $reservation;
 

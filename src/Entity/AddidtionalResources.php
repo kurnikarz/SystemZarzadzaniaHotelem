@@ -22,7 +22,7 @@ class AddidtionalResources
     /**
      * @ORM\Column(type="string", length=100)
      */
-    private $nazwa;
+    private $name;
 
     /**
      * @ORM\Column(type="float")
@@ -35,28 +35,23 @@ class AddidtionalResources
     private $manager;
 
     /**
-     * @ORM\OneToMany(targetEntity=Bill::class, mappedBy="addidtionalResources")
+     * @ORM\ManyToOne(targetEntity=Reservation::class, inversedBy="addidtionalResources")
      */
-    private $bills;
-
-    public function __construct()
-    {
-        $this->bills = new ArrayCollection();
-    }
+    private $reservation;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getNazwa(): ?string
+    public function getName(): ?string
     {
-        return $this->nazwa;
+        return $this->name;
     }
 
-    public function setNazwa(string $nazwa): self
+    public function setName(string $name): self
     {
-        $this->nazwa = $nazwa;
+        $this->name = $name;
 
         return $this;
     }
@@ -85,32 +80,14 @@ class AddidtionalResources
         return $this;
     }
 
-    /**
-     * @return Collection|Bill[]
-     */
-    public function getBills(): Collection
+    public function getReservation(): ?Reservation
     {
-        return $this->bills;
+        return $this->reservation;
     }
 
-    public function addBill(Bill $bill): self
+    public function setReservation(?Reservation $reservation): self
     {
-        if (!$this->bills->contains($bill)) {
-            $this->bills[] = $bill;
-            $bill->setAddidtionalResources($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBill(Bill $bill): self
-    {
-        if ($this->bills->removeElement($bill)) {
-            // set the owning side to null (unless already changed)
-            if ($bill->getAddidtionalResources() === $this) {
-                $bill->setAddidtionalResources(null);
-            }
-        }
+        $this->reservation = $reservation;
 
         return $this;
     }

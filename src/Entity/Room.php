@@ -35,14 +35,14 @@ class Room
     private $price;
 
     /**
-     * @ORM\OneToMany(targetEntity=Bill::class, mappedBy="room")
+     * @ORM\Column(type="smallint")
      */
-    private $bills;
+    private $type;
 
-    public function __construct()
-    {
-        $this->bills = new ArrayCollection();
-    }
+    /**
+     * @ORM\ManyToOne(targetEntity=Reservation::class, inversedBy="rooms")
+     */
+    private $reservation;
 
     public function getId(): ?int
     {
@@ -85,32 +85,26 @@ class Room
         return $this;
     }
 
-    /**
-     * @return Collection|Bill[]
-     */
-    public function getBills(): Collection
+    public function getType(): ?int
     {
-        return $this->bills;
+        return $this->type;
     }
 
-    public function addBill(Bill $bill): self
+    public function setType(int $type): self
     {
-        if (!$this->bills->contains($bill)) {
-            $this->bills[] = $bill;
-            $bill->setRoom($this);
-        }
+        $this->type = $type;
 
         return $this;
     }
 
-    public function removeBill(Bill $bill): self
+    public function getReservation(): ?Reservation
     {
-        if ($this->bills->removeElement($bill)) {
-            // set the owning side to null (unless already changed)
-            if ($bill->getRoom() === $this) {
-                $bill->setRoom(null);
-            }
-        }
+        return $this->reservation;
+    }
+
+    public function setReservation(?Reservation $reservation): self
+    {
+        $this->reservation = $reservation;
 
         return $this;
     }

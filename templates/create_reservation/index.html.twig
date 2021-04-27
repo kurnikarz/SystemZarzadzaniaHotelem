@@ -4,6 +4,7 @@
 
 {% block body_class %}reservation{% endblock %}
 {% block body %}
+    <h3 class="text-white mb-3">Rezerwacja</h3>
     {{ form_start(form) }}
     <div class="row">
         <div class="col">
@@ -32,26 +33,50 @@
         </div>
     </div>
 
-    <div id="repeater">
-        {{ form_row(form.add) }}
-{#        <div class="items" data-group="test">#}
-{#            {{ form_row(form.room_type) }}#}
-{#            {{ form_row(form.people) }}#}
-{#            {{ form_row(form.remove) }}#}
-{#        </div>#}
-        <div class="items">
-            <div class="row">
-                <div class="col">
-                    {{ form_row(form.room_type) }}
-                </div>
-                <div class="col">
-                    {{ form_row(form.people) }}
-                </div>
-                <div class="col remove">
-                    {{ form_row(form.remove) }}
-                </div>
+    <div class="form-group row">
+        <h3 class="text-white mt-5 mb-3">Proszę wybrać pokój do wynajęcia</h3>
+        {% for room in rooms %}
+            <div class="col-4 room">
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <td>Numer pokoju</td>
+                        <td>{{ room.number }}</td>
+                    </tr>
+                    <tr>
+                        <td>Cena za dobę</td>
+                        <td>{{ room.price }} PLN</td>
+                    </tr>
+                    <tr>
+                        <td>Typ pokoju</td>
+                        <td>{{ room.type }} pokojowy</td>
+                    </tr>
+                    </tbody>
+                </table>
+                {{ form_row(attribute(form, "room_" ~ room.id)) }}
             </div>
-        </div>
+        {% endfor %}
+    </div>
+
+    <div class="form-group row">
+        <h3 class="text-white mt-5 mb-3">Potrzebujesz dodatkowych usług? Wybierz z poniszych</h3>
+        {% for addidtionalResource in addidtionalResources %}
+            <div class="col-4 room">
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <td>Nazwa</td>
+                        <td>{{ addidtionalResource.name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Cena za dobę</td>
+                        <td>{{ addidtionalResource.price }} PLN</td>
+                    </tr>
+                    </tbody>
+                </table>
+                {{ form_row(attribute(form, "resource_" ~ addidtionalResource.id)) }}
+            </div>
+        {% endfor %}
     </div>
 
     <div class="row">

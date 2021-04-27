@@ -23,24 +23,9 @@ class Bill
     private $hotelGuest;
 
     /**
-     * @ORM\ManyToOne(targetEntity=AddidtionalResources::class, inversedBy="bills")
-     */
-    private $addidtionalResources;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Room::class, inversedBy="bills")
-     */
-    private $room;
-
-    /**
      * @ORM\OneToOne(targetEntity=Reservation::class, inversedBy="bill", cascade={"persist", "remove"})
      */
     private $reservation;
-
-    /**
-     * @ORM\Column(type="float")
-     */
-    private $sum;
 
     public function getId(): ?int
     {
@@ -59,29 +44,6 @@ class Bill
         return $this;
     }
 
-    public function getAddidtionalResources(): ?AddidtionalResources
-    {
-        return $this->addidtionalResources;
-    }
-
-    public function setAddidtionalResources(?AddidtionalResources $addidtionalResources): self
-    {
-        $this->addidtionalResources = $addidtionalResources;
-
-        return $this;
-    }
-
-    public function getRoom(): ?Room
-    {
-        return $this->room;
-    }
-
-    public function setRoom(?Room $room): self
-    {
-        $this->room = $room;
-
-        return $this;
-    }
 
     public function getReservation(): ?Reservation
     {
@@ -91,18 +53,6 @@ class Bill
     public function setReservation(?Reservation $reservation): self
     {
         $this->reservation = $reservation;
-
-        return $this;
-    }
-
-    public function getSum(): ?float
-    {
-        return $this->sum;
-    }
-
-    public function setSum(float $sum): self
-    {
-        $this->sum = $sum;
 
         return $this;
     }
