@@ -55,3 +55,15 @@
     padding: unset;
     padding-top: 5px;
 }
+
+.reservation #intro {
+    height: unset;
+}
+
+.reservation .mask {
+    position: static;
+}
+
+.reservation .required {
+    color: #fff;
+}

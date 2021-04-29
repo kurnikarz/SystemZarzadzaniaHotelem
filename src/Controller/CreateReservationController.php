@@ -91,12 +91,14 @@ class CreateReservationController extends AbstractController
         foreach ($rooms as $room) {
             $form->add('room_'.$room->getId(), CheckboxType::class, [
                 'label' => 'Wybieram',
+                'required' => false
             ]);
         }
 
         foreach ($addidtionalResources as $addidtionalResource) {
             $form->add('resource_'.$addidtionalResource->getId(), CheckboxType::class, [
                 'label' => 'Wybieram',
+                'required' => false
             ]);
         }
 
@@ -104,6 +106,7 @@ class CreateReservationController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             $postData = $request->request->get('form');
+            dump($postData);
             $entityManager = $this->getDoctrine()->getManager();
             $reservation = new Reservation();
             $hotel_guest = new HotelGuest();
