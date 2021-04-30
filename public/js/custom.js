@@ -6,4 +6,13 @@ $(document).ready(function () {
         name_number++;
         this.name = this.name.replace(/\[[0-9]\]+/, '['+name_number+']')
     });
+
+   let bodyCLass = $("body").attr('class');
+   if (bodyCLass === 'reservation') {
+       console.log("rarara");
+       if ($("#intro").height() < 768) {
+           $("#intro").css("height","100vh")
+       }
+   }
+
 })

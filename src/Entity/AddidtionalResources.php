@@ -35,9 +35,14 @@ class AddidtionalResources
     private $manager;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Reservation::class, inversedBy="addidtionalResources")
+     * @ORM\ManyToMany(targetEntity=Reservation::class, inversedBy="addidtionalResources")
      */
     private $reservation;
+
+    public function __construct()
+    {
+        $this->reservation = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -80,14 +85,26 @@ class AddidtionalResources
         return $this;
     }
 
-    public function getReservation(): ?Reservation
+    /**
+     * @return Collection|Reservation[]
+     */
+    public function getReservation(): Collection
     {
         return $this->reservation;
     }
 
-    public function setReservation(?Reservation $reservation): self
+    public function addReservation(Reservation $reservation): self
     {
-        $this->reservation = $reservation;
+        if (!$this->reservation->contains($reservation)) {
+            $this->reservation[] = $reservation;
+        }
+
+        return $this;
+    }
+
+    public function removeReservation(Reservation $reservation): self
+    {
+        $this->reservation->removeElement($reservation);
 
         return $this;
     }

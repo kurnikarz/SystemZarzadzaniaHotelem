@@ -24,6 +24,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+
 //use App\Entity\
 
 class CreateReservationController extends AbstractController
@@ -102,13 +103,6 @@ class CreateReservationController extends AbstractController
                 ]
             ]);
 
-//        foreach ($rooms as $room) {
-//            $form->add('room_'.$room->getId(), CheckboxType::class, [
-//                'label' => 'Wybieram',
-//                'required' => false
-//            ]);
-//        }
-
         $form->add('rooms', ChoiceType::class, [
             'choices' => [
                 $arrayRooms
@@ -127,61 +121,69 @@ class CreateReservationController extends AbstractController
             'required' => false
         ]);
 
-//        foreach ($addidtionalResources as $addidtionalResource) {
-//            $form->add('resource_'.$addidtionalResource->getId(), CheckboxType::class, [
-//                'label' => 'Wybieram',
-//                'required' => false
-//            ]);
-//        }
-
         $form = $form->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             $postData = $request->request->get('form');
-            dump($postData);
             $entityManager = $this->getDoctrine()->getManager();
             $reservation = new Reservation();
             $hotel_guest = new HotelGuest();
-            $dateFrom = date_create_from_format('Y-m-d',$postData['dateFrom']);
-            $dateTo = date_create_from_format('Y-m-d',$postData['dateTo']);
+            $dateFrom = date_create_from_format('Y-m-d', $postData['dateFrom']);
+            $dateTo = date_create_from_format('Y-m-d', $postData['dateTo']);
+            dump($dateFrom);
+            dump($dateTo);
+            dump($dateFrom->diff($dateTo)->days);
 
-            //Gość hotelowy
+            //Hotel guest
             $hotel_guest->setName($postData['name']);
             $hotel_guest->setSurname($postData['surname']);
             $hotel_guest->setEmail($postData['email']);
             $hotel_guest->setPhone($postData['phone']);
             $hotel_guest->setReservation($reservation);
 
-            //Rezerwacja
+            //Reservation
             $reservation->setDateFrom($dateFrom);
             $reservation->setDateTo($dateTo);
 
-            //Pokój
+            //Rooms
             $rooms = $postData['rooms'];
-            dump($rooms);
+            $priceForRooms = 0;
             foreach ($rooms as $room) {
                 $roomAdd = $this->getDoctrine()->getRepository(Room::class)->findOneBy([
                     'number' => $room
                 ]);
+                $priceForRooms += $roomAdd->getPrice();
                 $roomAdd->setAvailablity('1');
                 $roomAdd->setReservation($reservation);
                 $entityManager->persist($roomAdd);
             }
 
-            //Zasoby dodatkowe
+            //Addidtional resources
             $addidtionalResources = $postData['addidtionalResources'];
+            $priceForAdditionalResources = 0;
             foreach ($addidtionalResources as $addidtionalResource) {
                 $addidtionalResourceAdd = $this->getDoctrine()->getRepository(AddidtionalResources::class)->findOneBy([
                     'name' => $addidtionalResource
                 ]);
-                $addidtionalResourceAdd->setReservation($reservation);
+                $priceForAdditionalResources += $addidtionalResourceAdd->getPrice();
+                $addidtionalResourceAdd->addReservation($reservation);
                 $entityManager->persist($addidtionalResourceAdd);
             }
+
+            //Price
+            $days = $dateFrom->diff($dateTo)->days;
+            $priceForRooms *= $days;
+            $priceForAdditionalResources *= $days;
+            $price = $priceForRooms + $priceForAdditionalResources;
+            $reservation->setPrice($price);
 
             $entityManager->persist($hotel_guest);
             $entityManager->persist($reservation);
             $entityManager->flush();
 
+            return $this->render('homepage/index.html.twig', [
+                'message' => "Dziękujemy za dokonanie rezerwacji"
+            ]);
         }
 
         return $this->render('create_reservation/index.html.twig', [

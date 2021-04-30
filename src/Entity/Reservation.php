@@ -40,14 +40,19 @@ class Reservation
     private $rooms;
 
     /**
-     * @ORM\OneToMany(targetEntity=AddidtionalResources::class, mappedBy="reservation")
+     * @ORM\OneToOne(targetEntity=HotelGuest::class, mappedBy="reservation", cascade={"persist", "remove"})
+     */
+    private $hotelGuest;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=AddidtionalResources::class, mappedBy="reservation")
      */
     private $addidtionalResources;
 
     /**
-     * @ORM\OneToOne(targetEntity=HotelGuest::class, mappedBy="reservation", cascade={"persist", "remove"})
+     * @ORM\Column(type="float")
      */
-    private $hotelGuest;
+    private $price;
 
     public function __construct()
     {
@@ -136,36 +141,6 @@ class Reservation
         return $this;
     }
 
-    /**
-     * @return Collection|AddidtionalResources[]
-     */
-    public function getAddidtionalResources(): Collection
-    {
-        return $this->addidtionalResources;
-    }
-
-    public function addAddidtionalResource(AddidtionalResources $addidtionalResource): self
-    {
-        if (!$this->addidtionalResources->contains($addidtionalResource)) {
-            $this->addidtionalResources[] = $addidtionalResource;
-            $addidtionalResource->setReservation($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAddidtionalResource(AddidtionalResources $addidtionalResource): self
-    {
-        if ($this->addidtionalResources->removeElement($addidtionalResource)) {
-            // set the owning side to null (unless already changed)
-            if ($addidtionalResource->getReservation() === $this) {
-                $addidtionalResource->setReservation(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getHotelGuest(): ?HotelGuest
     {
         return $this->hotelGuest;
@@ -184,6 +159,45 @@ class Reservation
         }
 
         $this->hotelGuest = $hotelGuest;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AddidtionalResources[]
+     */
+    public function getAddidtionalResources(): Collection
+    {
+        return $this->addidtionalResources;
+    }
+
+    public function addAddidtionalResource(AddidtionalResources $addidtionalResource): self
+    {
+        if (!$this->addidtionalResources->contains($addidtionalResource)) {
+            $this->addidtionalResources[] = $addidtionalResource;
+            $addidtionalResource->addReservation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAddidtionalResource(AddidtionalResources $addidtionalResource): self
+    {
+        if ($this->addidtionalResources->removeElement($addidtionalResource)) {
+            $addidtionalResource->removeReservation($this);
+        }
+
+        return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(float $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }

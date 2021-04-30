@@ -4,6 +4,10 @@
 
 {% block body %}
 
+    {% if message is defined %}
+        <h3 class="text-success font-weight-bold">{{ message }}</h3>
+    {% endif %}
+
     <div class="text-white">
         <h1 class="mb-3">System zarządzania hotelem</h1>
         <h5 class="mb-4">Zaloguj się lub złóż rezerwację</h5>
