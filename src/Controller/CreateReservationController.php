@@ -37,6 +37,20 @@ class CreateReservationController extends AbstractController
             'availablity' => '0'
         ]);
         $addidtionalResources = $this->getDoctrine()->getRepository(AddidtionalResources::class)->findAll();
+        $arrayRooms = [];
+        $arrayAddidtionalResources = [];
+
+        foreach ($rooms as $room) {
+            array_push($arrayRooms, [
+                'Wybieram' => $room->getNumber()
+            ]);
+        }
+
+        foreach ($addidtionalResources as $addidtionalResource) {
+            array_push($arrayAddidtionalResources, [
+                'Wybieram' => $addidtionalResource->getName()
+            ]);
+        }
 
         $form = $this->createFormBuilder()
             ->add('dateFrom', DateType::class, [
@@ -88,19 +102,37 @@ class CreateReservationController extends AbstractController
                 ]
             ]);
 
-        foreach ($rooms as $room) {
-            $form->add('room_'.$room->getId(), CheckboxType::class, [
-                'label' => 'Wybieram',
-                'required' => false
-            ]);
-        }
+//        foreach ($rooms as $room) {
+//            $form->add('room_'.$room->getId(), CheckboxType::class, [
+//                'label' => 'Wybieram',
+//                'required' => false
+//            ]);
+//        }
 
-        foreach ($addidtionalResources as $addidtionalResource) {
-            $form->add('resource_'.$addidtionalResource->getId(), CheckboxType::class, [
-                'label' => 'Wybieram',
-                'required' => false
-            ]);
-        }
+        $form->add('rooms', ChoiceType::class, [
+            'choices' => [
+                $arrayRooms
+            ],
+            'multiple' => true,
+            'expanded' => true,
+            'required' => true
+        ]);
+
+        $form->add('addidtionalResources', ChoiceType::class, [
+            'choices' => [
+                $arrayAddidtionalResources
+            ],
+            'multiple' => true,
+            'expanded' => true,
+            'required' => false
+        ]);
+
+//        foreach ($addidtionalResources as $addidtionalResource) {
+//            $form->add('resource_'.$addidtionalResource->getId(), CheckboxType::class, [
+//                'label' => 'Wybieram',
+//                'required' => false
+//            ]);
+//        }
 
         $form = $form->getForm();
         $form->handleRequest($request);
@@ -113,13 +145,38 @@ class CreateReservationController extends AbstractController
             $dateFrom = date_create_from_format('Y-m-d',$postData['dateFrom']);
             $dateTo = date_create_from_format('Y-m-d',$postData['dateTo']);
 
+            //Gość hotelowy
             $hotel_guest->setName($postData['name']);
             $hotel_guest->setSurname($postData['surname']);
             $hotel_guest->setEmail($postData['email']);
             $hotel_guest->setPhone($postData['phone']);
             $hotel_guest->setReservation($reservation);
+
+            //Rezerwacja
             $reservation->setDateFrom($dateFrom);
             $reservation->setDateTo($dateTo);
+
+            //Pokój
+            $rooms = $postData['rooms'];
+            dump($rooms);
+            foreach ($rooms as $room) {
+                $roomAdd = $this->getDoctrine()->getRepository(Room::class)->findOneBy([
+                    'number' => $room
+                ]);
+                $roomAdd->setAvailablity('1');
+                $roomAdd->setReservation($reservation);
+                $entityManager->persist($roomAdd);
+            }
+
+            //Zasoby dodatkowe
+            $addidtionalResources = $postData['addidtionalResources'];
+            foreach ($addidtionalResources as $addidtionalResource) {
+                $addidtionalResourceAdd = $this->getDoctrine()->getRepository(AddidtionalResources::class)->findOneBy([
+                    'name' => $addidtionalResource
+                ]);
+                $addidtionalResourceAdd->setReservation($reservation);
+                $entityManager->persist($addidtionalResourceAdd);
+            }
 
             $entityManager->persist($hotel_guest);
             $entityManager->persist($reservation);
