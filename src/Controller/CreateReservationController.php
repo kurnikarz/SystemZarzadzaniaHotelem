@@ -130,9 +130,6 @@ class CreateReservationController extends AbstractController
             $hotel_guest = new HotelGuest();
             $dateFrom = date_create_from_format('Y-m-d', $postData['dateFrom']);
             $dateTo = date_create_from_format('Y-m-d', $postData['dateTo']);
-            dump($dateFrom);
-            dump($dateTo);
-            dump($dateFrom->diff($dateTo)->days);
 
             //Hotel guest
             $hotel_guest->setName($postData['name']);
