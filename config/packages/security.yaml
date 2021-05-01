@@ -21,6 +21,8 @@ security:
             guard:
                 authenticators:
                     - App\Security\CustomAuthAuthenticator
+                    - App\Security\ReceptionAuthenticator
+                entry_point: App\Security\ReceptionAuthenticator
             logout:
                 path: app_logout
                 # where to redirect after logout
@@ -35,5 +37,6 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/loginAdmin, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/loginRecepcja, roles: IS_AUTHENTICATED_ANONYMOUSLY }
 #         - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
