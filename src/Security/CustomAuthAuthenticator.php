@@ -24,7 +24,7 @@ class CustomAuthAuthenticator extends AbstractFormLoginAuthenticator implements 
 {
     use TargetPathTrait;
 
-    public const LOGIN_ROUTE = 'app_loginAdmin';
+    public const LOGIN_ROUTE = 'app_login';
 
     private $entityManager;
     private $urlGenerator;

@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Controller\ReservationController;
 use App\Entity\Reservation;
+use App\Entity\Room;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -44,5 +45,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Użytkownicy', 'fa fa-folder',User::class)
         ->setPermission('ROLE_ADMIN');
         yield MenuItem::linkToCrud('Rezerwacje','fa fa-folder', Reservation::class);
+//        yield MenuItem::linkToCrud('Pokoje','fa fa-folder', Room::class);
     }
 }

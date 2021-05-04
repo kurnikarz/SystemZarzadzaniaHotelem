@@ -5,6 +5,9 @@ namespace App\Controller\Admin;
 
 use App\Entity\Reservation;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ReservationCrudController extends AbstractCrudController
@@ -24,14 +27,15 @@ class ReservationCrudController extends AbstractCrudController
 //        return $form;
 //    }
 
-    /*
     public function configureFields(string $pageName): iterable
     {
+//        dump(AssociationField::new('rooms'));
         return [
             IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
+            DateTimeField::new('DateFrom'),
+            DateTimeField::new('DateTo'),
+            AssociationField::new('rooms')
         ];
     }
-    */
+
 }
