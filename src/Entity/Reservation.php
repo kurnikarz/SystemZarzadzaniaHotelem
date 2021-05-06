@@ -5,10 +5,12 @@ namespace App\Entity;
 use App\Repository\ReservationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=ReservationRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Reservation
 {
@@ -54,6 +56,11 @@ class Reservation
      */
     private $price;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $accepted;
+
     public function __construct()
     {
         $this->rooms = new ArrayCollection();
@@ -63,6 +70,18 @@ class Reservation
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getAccepted(): ?bool
+    {
+        return $this->accepted;
+    }
+
+    public function setAccepted(bool $accepted): self
+    {
+        $this->accepted = $accepted;
+
+        return $this;
     }
 
     public function getDateFrom(): ?\DateTimeInterface
@@ -200,5 +219,14 @@ class Reservation
         $this->price = $price;
 
         return $this;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @param LifecycleEventArgs $args
+     */
+    public function prePersist(LifecycleEventArgs $args)
+    {
+        dump($args);
     }
 }
