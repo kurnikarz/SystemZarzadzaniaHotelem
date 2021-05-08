@@ -141,6 +141,7 @@ class CreateReservationController extends AbstractController
             //Reservation
             $reservation->setDateFrom($dateFrom);
             $reservation->setDateTo($dateTo);
+            $reservation->setAccepted(false);
 
             //Rooms
             $rooms = $postData['rooms'];

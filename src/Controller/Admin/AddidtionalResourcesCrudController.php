@@ -20,7 +20,6 @@ class AddidtionalResourcesCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
             TextField::new('name', 'Nazwa'),
             IntegerField::new('price', 'Cena za dobę'),
         ];

@@ -9,7 +9,6 @@ $(document).ready(function () {
 
    let bodyCLass = $("body").attr('class');
    if (bodyCLass === 'reservation') {
-       console.log("rarara");
        if ($("#intro").height() < 768) {
            $("#intro").css("height","100vh")
        }

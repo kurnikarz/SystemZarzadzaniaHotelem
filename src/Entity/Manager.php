@@ -30,11 +30,6 @@ class Manager
     private $password;
 
     /**
-     * @ORM\Column(type="json")
-     */
-    private $roles = [];
-
-    /**
      * @ORM\Column(type="string", length=50)
      */
     private $name;
@@ -43,16 +38,6 @@ class Manager
      * @ORM\Column(type="string", length=50)
      */
     private $surname;
-
-    /**
-     * @ORM\OneToMany(targetEntity=AddidtionalResources::class, mappedBy="manager")
-     */
-    private $AdditionalResources;
-
-    public function __construct()
-    {
-        $this->AdditionalResources = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -83,18 +68,6 @@ class Manager
         return $this;
     }
 
-    public function getRoles(): ?array
-    {
-        return $this->roles;
-    }
-
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
-
-        return $this;
-    }
-
     public function getName(): ?string
     {
         return $this->name;
@@ -115,36 +88,6 @@ class Manager
     public function setSurname(string $surname): self
     {
         $this->surname = $surname;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|AddidtionalResources[]
-     */
-    public function getAdditionalResources(): Collection
-    {
-        return $this->AdditionalResources;
-    }
-
-    public function addAdditionalResource(AddidtionalResources $additionalResource): self
-    {
-        if (!$this->AdditionalResources->contains($additionalResource)) {
-            $this->AdditionalResources[] = $additionalResource;
-            $additionalResource->setManager($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAdditionalResource(AddidtionalResources $additionalResource): self
-    {
-        if ($this->AdditionalResources->removeElement($additionalResource)) {
-            // set the owning side to null (unless already changed)
-            if ($additionalResource->getManager() === $this) {
-                $additionalResource->setManager(null);
-            }
-        }
 
         return $this;
     }

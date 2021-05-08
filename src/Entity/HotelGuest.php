@@ -38,11 +38,6 @@ class HotelGuest
     private $phone;
 
     /**
-     * @ORM\OneToOne(targetEntity=Bill::class, mappedBy="hotelGuest", cascade={"persist", "remove"})
-     */
-    private $bill;
-
-    /**
      * @ORM\OneToOne(targetEntity=Reservation::class, inversedBy="hotelGuest", cascade={"persist", "remove"})
      */
     private $reservation;
@@ -96,28 +91,6 @@ class HotelGuest
     public function setPhone(string $phone): self
     {
         $this->phone = $phone;
-
-        return $this;
-    }
-
-    public function getBill(): ?Bill
-    {
-        return $this->bill;
-    }
-
-    public function setBill(?Bill $bill): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($bill === null && $this->bill !== null) {
-            $this->bill->setHotelGuest(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($bill !== null && $bill->getHotelGuest() !== $this) {
-            $bill->setHotelGuest($this);
-        }
-
-        $this->bill = $bill;
 
         return $this;
     }

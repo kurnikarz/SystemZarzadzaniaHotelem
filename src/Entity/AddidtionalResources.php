@@ -30,11 +30,6 @@ class AddidtionalResources
     private $price;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Manager::class, inversedBy="AdditionalResources")
-     */
-    private $manager;
-
-    /**
      * @ORM\ManyToMany(targetEntity=Reservation::class, inversedBy="addidtionalResources")
      */
     private $reservation;
@@ -69,18 +64,6 @@ class AddidtionalResources
     public function setPrice(float $price): self
     {
         $this->price = $price;
-
-        return $this;
-    }
-
-    public function getManager(): ?Manager
-    {
-        return $this->manager;
-    }
-
-    public function setManager(?Manager $manager): self
-    {
-        $this->manager = $manager;
 
         return $this;
     }

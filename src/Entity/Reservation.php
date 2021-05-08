@@ -10,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=ReservationRepository::class)
- * @ORM\HasLifecycleCallbacks()
  */
 class Reservation
 {
@@ -32,12 +31,7 @@ class Reservation
     private $dateTo;
 
     /**
-     * @ORM\OneToOne(targetEntity=Bill::class, mappedBy="reservation", cascade={"persist", "remove"})
-     */
-    private $bill;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Room::class, mappedBy="reservation")
+     * @ORM\OneToMany(targetEntity=Room::class, mappedBy="reservation", cascade={"remove"})
      */
     private $rooms;
 
@@ -104,28 +98,6 @@ class Reservation
     public function setDateTo(\DateTimeInterface $dateTo): self
     {
         $this->dateTo = $dateTo;
-
-        return $this;
-    }
-
-    public function getBill(): ?Bill
-    {
-        return $this->bill;
-    }
-
-    public function setBill(?Bill $bill): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($bill === null && $this->bill !== null) {
-            $this->bill->setReservation(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($bill !== null && $bill->getReservation() !== $this) {
-            $bill->setReservation($this);
-        }
-
-        $this->bill = $bill;
 
         return $this;
     }
@@ -219,14 +191,5 @@ class Reservation
         $this->price = $price;
 
         return $this;
-    }
-
-    /**
-     * @ORM\PrePersist()
-     * @param LifecycleEventArgs $args
-     */
-    public function prePersist(LifecycleEventArgs $args)
-    {
-        dump($args);
     }
 }
