@@ -12,25 +12,4 @@ class UserCrudController extends AbstractCrudController
     {
         return User::class;
     }
-
-//    public function createEntity(string $entityFqcn)
-//    {
-//        $form = $this->createFormBuilder()
-//            ->add('email',TextType::class, [
-//                'label' => 'rarar'
-//            ]);
-//        $form = $form->getForm();
-//        return $form;
-//    }
-
-    /*
-    public function configureFields(string $pageName): iterable
-    {
-        return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
-        ];
-    }
-    */
 }
