@@ -44,8 +44,6 @@ class DashboardController extends AbstractDashboardController
 
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
         yield MenuItem::section("Encje");
-        yield MenuItem::linkToCrud('Użytkownicy', 'fa fa-folder',User::class)
-        ->setPermission('ROLE_ADMIN');
         yield MenuItem::linkToCrud('Rezerwacje','fa fa-folder', Reservation::class);
         yield MenuItem::linkToCrud('Goście Hotelowi','fa fa-folder', HotelGuest::class);
         yield MenuItem::linkToCrud('Pokoje','fa fa-folder', Room::class);
